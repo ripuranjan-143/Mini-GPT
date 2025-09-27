@@ -2,11 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import config from './utils/Config.js';
+import mainRouter from './routes/MainRouter.js';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/api', mainRouter);
 
 const start = async () => {
   try {
