@@ -16,7 +16,7 @@ const start = async () => {
     console.log(`Could not connect to database... ${err}`);
   }
 
-  app.listen(config.port, (req, res) => {
+  app.listen(config.port, () => {
     console.log(`App is listening on port... ${config.port}`);
   });
 };
