@@ -8,12 +8,9 @@ const test = (req, res) => {
 
 const signup = async (req, res) => {
   const { username, email, password } = req.body;
-  if (!username || !email || !password) {
-    throw new ExpressError('All fields are required', 400);
-  }
   const user = await User.findOne({ email });
   if (user) {
-    throw new ExpressError('Email is already used, try different email', 409);
+    throw new ExpressError(409,'Email is already used, try different email');
   }
   const hashedPassword = await AuthHelper.hashPassword(password);
   const newUser = new User({
