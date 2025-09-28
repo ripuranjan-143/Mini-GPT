@@ -38,9 +38,18 @@ const login = async (req, res) => {
     throw new ExpressError(400, 'Invalid Password');
   }
   const token = AuthHelper.genToken(user._id);
-  res
-    .status(200)
-    .json({ token, userId: user._id, message: 'User logged in succcessful' });
+  res.status(200).json({ token, userId: user._id, message: 'User logged in successful' });
 };
 
-export default { test, signup, login };
+const getUserById = async (req, res) => {
+  if (req.user.id !== req.params.id) {
+    throw new ExpressError(403, 'You are not authorized to access this user');
+  }
+  const user = await User.findById(req.params.id).select('-password');
+  if (!user) {
+    throw new ExpressError(400, 'User not found');
+  }
+  res.json({ user });
+};
+
+export default { test, signup, login, getUserById };

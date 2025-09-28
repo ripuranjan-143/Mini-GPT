@@ -15,4 +15,10 @@ const loginSchema = Joi.object({
   }),
 });
 
-export default { signupSchema, loginSchema };
+const userIdSchema = Joi.object({
+  params: Joi.object({
+    id: Joi.string().hex().length(24).required(),
+  }),
+});
+
+export default { signupSchema, loginSchema, userIdSchema };
