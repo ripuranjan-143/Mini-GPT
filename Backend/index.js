@@ -14,7 +14,7 @@ app.use('/api', mainRouter);
 
 // For undefined routes
 app.use((req, res, next) => {
-  next(new ExpressError('Page Not Found', 404));
+  next(new ExpressError(404,'Page Not Found'));
 });
 
 // Global error handler

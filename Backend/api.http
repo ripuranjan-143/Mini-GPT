@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "username": "ripu",
-  "email": "ripu@example.com",
+  "email": "ripu@eexample.com",
   "password": "1234"
 }
 
@@ -13,6 +13,10 @@ POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-  "email": "ripu@example.com",
-  "password": "1424"
+  "email": "ripu@eexample.com",
+  "password": "1234"
 }
+
+### Get user by ID
+GET http://localhost:8080/api/user/68d8920a1c30d1c1c72b4
+Content-Type: application/json

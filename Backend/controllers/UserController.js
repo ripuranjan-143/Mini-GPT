@@ -21,7 +21,6 @@ const signup = async (req, res) => {
   const savedUser = await newUser.save();
   const token = AuthHelper.genToken(savedUser._id);
   res.status(201).json({
-    success: true,
     token,
     userId: savedUser._id,
     message: 'User created successfully',
@@ -41,7 +40,7 @@ const login = async (req, res) => {
   const token = AuthHelper.genToken(user._id);
   res
     .status(200)
-    .json({ success: true, token, userId: user._id, message: 'User logged in succcessful' });
+    .json({ token, userId: user._id, message: 'User logged in succcessful' });
 };
 
 export default { test, signup, login };
