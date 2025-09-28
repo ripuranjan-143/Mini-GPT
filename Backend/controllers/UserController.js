@@ -10,7 +10,7 @@ const signup = async (req, res) => {
   const { username, email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw new ExpressError(409,'Email is already used, try different email');
+    throw new ExpressError(409, 'Email is already used, try different email');
   }
   const hashedPassword = await AuthHelper.hashPassword(password);
   const newUser = new User({
@@ -19,7 +19,7 @@ const signup = async (req, res) => {
     password: hashedPassword,
   });
   const savedUser = await newUser.save();
-  const token = AuthHelper.genToken(savedUser._id );
+  const token = AuthHelper.genToken(savedUser._id);
   res.status(201).json({
     success: true,
     token,
@@ -28,4 +28,20 @@ const signup = async (req, res) => {
   });
 };
 
-export default { test, signup };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ExpressError(404, 'User not registered');
+  }
+  const isMatched = await AuthHelper.comparePasswords(password, user.password);
+  if (!isMatched) {
+    throw new ExpressError(400, 'Invalid Password');
+  }
+  const token = AuthHelper.genToken(user._id);
+  res
+    .status(200)
+    .json({ success: true, token, userId: user._id, message: 'User logged in succcessful' });
+};
+
+export default { test, signup, login };

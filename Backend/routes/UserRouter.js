@@ -8,5 +8,6 @@ const userRouter = express.Router();
 
 userRouter.get('/test', WrapAsync(userController.test));
 userRouter.post('/signup', validateSchema(Schema.signupSchema), WrapAsync(userController.signup));
+userRouter.post('/login', validateSchema(Schema.loginSchema), WrapAsync(userController.login));
 
 export default userRouter;

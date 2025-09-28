@@ -11,4 +11,8 @@ const genToken = (id) => {
   return jwt.sign({ id }, Config.secretKey, { expiresIn: '1h' });
 };
 
-export default { hashPassword, genToken };
+const comparePasswords = async (enteredPassword, storedPassword) => {
+  return bcrypt.compare(enteredPassword, storedPassword)
+}
+
+export default { hashPassword, genToken, comparePasswords };
