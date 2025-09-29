@@ -21,4 +21,11 @@ const userIdSchema = Joi.object({
   }),
 });
 
-export default { signupSchema, loginSchema, userIdSchema };
+const chatSchema = Joi.object({
+  body: Joi.object({
+    threadId: Joi.string().required(),
+    message: Joi.string().min(1).required(),
+  }),
+});
+
+export default { signupSchema, loginSchema, userIdSchema, chatSchema };
