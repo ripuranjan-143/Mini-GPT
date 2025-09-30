@@ -2,13 +2,17 @@ import express from 'express';
 import WrapAsync from '../utils/WrapAsync.js';
 import AuthMiddleware from '../utils/AuthMiddleware.js';
 import threadController from '../controllers/ThreadController.js';
+import validateSchema from '../utils/ValidateSchema.js';
+import Schema from '../utils/Schema.js';
 
 const threadRouter = express.Router();
 
+threadRouter.get('/all', AuthMiddleware.verifyToken, WrapAsync(threadController.getAllThreads));
 threadRouter.get(
-  '/all',
+  '/:threadId',
   AuthMiddleware.verifyToken,
-  WrapAsync(threadController.getAllThreads)
+  validateSchema(Schema.getThreadIdSchema),
+  WrapAsync(threadController.getThreadById)
 );
 
 export default threadRouter;

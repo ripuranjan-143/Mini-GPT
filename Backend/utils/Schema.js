@@ -28,4 +28,12 @@ const chatSchema = Joi.object({
   }),
 });
 
-export default { signupSchema, loginSchema, userIdSchema, chatSchema };
+const getThreadIdSchema = Joi.object({
+  params: Joi.object({
+    threadId: Joi.string()
+      .guid({ version: ['uuidv1', 'uuidv4'] })
+      .required(),
+  }),
+});
+
+export default { signupSchema, loginSchema, userIdSchema, chatSchema, getThreadIdSchema };
