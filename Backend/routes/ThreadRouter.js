@@ -14,5 +14,11 @@ threadRouter.get(
   validateSchema(Schema.getThreadIdSchema),
   WrapAsync(threadController.getThreadById)
 );
+threadRouter.delete(
+  '/:threadId',
+  AuthMiddleware.verifyToken,
+  validateSchema(Schema.deleteThreadIdSchema),
+  WrapAsync(threadController.deleteThreadById)
+);
 
 export default threadRouter;
