@@ -17,4 +17,11 @@ userRouter.get(
   WrapAsync(userController.getUserById)
 );
 
+userRouter.delete(
+  '/:id',
+  AuthMiddleware.verifyToken,
+  validateSchema(Schema.userIdSchema),
+  WrapAsync(userController.deleteUserById)
+);
+
 export default userRouter;

@@ -1,6 +1,7 @@
 import User from '../models/UserModel.js';
 import AuthHelper from '../utils/AuthHelper.js';
 import ExpressError from '../utils/ExpressError.js';
+import Thread from '../models/ThreadModel.js';
 
 const test = (req, res) => {
   res.status(200).json({ message: 'Welcome to api' });
@@ -52,4 +53,17 @@ const getUserById = async (req, res) => {
   res.json({ user });
 };
 
-export default { test, signup, login, getUserById };
+const deleteUserById = async (req, res) => {
+  if (req.user.id !== req.params.id) {
+    throw new ExpressError(403, 'You are not authorized to access this user');
+  }
+  const user = await User.findById(req.params.id).select('-password');
+  if (!user) {
+    throw new ExpressError(400, 'User not found');
+  }
+  await Thread.deleteMany({ userId: req.user.id });
+  await User.findByIdAndDelete(req.user.id);
+  res.status(200).json({ message: 'User and all related threads deleted successfully' });
+};
+
+export default { test, signup, login, getUserById, deleteUserById };
