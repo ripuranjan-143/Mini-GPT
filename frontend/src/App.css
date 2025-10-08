@@ -1,0 +1,18 @@
+.app-chatwindow {
+  background-color: #181818;
+  color: rgb(10, 10, 13);
+  width: calc(100% - 250px);
+  position: fixed;
+  top: 0;
+  left: 250px;
+  height: 44rem;
+}
+
+.app-sidebar {
+  width: 250px;
+  height: 44rem;
+  background-color: #151515;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

@@ -1,12 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import Sidebar from './Sidebar.jsx';
-import ChatWindow from './ChatWindow.jsx';
+import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Sidebar />
-    <ChatWindow />
+    <App />
   </StrictMode>
 );
