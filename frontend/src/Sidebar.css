@@ -38,9 +38,10 @@
 /* Scrollable content */
 .sidebar-body {
   flex: 1;                  
-  overflow-y: auto;         
+  overflow-y: scroll;         
   overflow-x: hidden;
   padding: 10px;
+  scrollbar-width: thin;scrollbar-color: #555 #1e1e1e;
 }
 
 .sidebar-icons, .history {
@@ -64,4 +65,59 @@
   cursor: pointer;
   background-color: rgba(94, 90, 90, 0.34);
   border-radius: 10px;
+}
+
+
+.profile-section {
+  position: fixed;
+  bottom: 0px;
+  z-index: 1000;
+}
+
+.profile {
+  background-color: #212121;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 14.5rem;
+  margin: 5px;
+}
+
+.profile-list {
+  text-decoration: none;
+  color: white;
+  margin: 2px 3px;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.profile-list:hover {
+  background-color: #171717;
+  cursor: pointer;
+}
+
+.profile-header {
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #212121;
+  width: 235px;
+  margin: 3px 3px 0px 3px;
+  height: 60px;
+}
+
+.profile-header:hover {
+  background-color: #303030;
+}
+
+.profile-img {
+  height: 40px;
+  width: 35px;
+  border-radius: 45%;
+  margin-left: 10px;
+  margin-bottom: 9px;
+}
+
+.username {
+  font-size: 0.9rem;
 }
