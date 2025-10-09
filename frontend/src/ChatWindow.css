@@ -1,0 +1,136 @@
+.minigpt:hover {
+  background-color: #4e4949;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.share-doc {
+  border-radius: 10px;
+  padding: 5px 6px;
+}
+
+.share-doc:hover {
+  background-color: #4e4949;
+  padding: 5px 6px;
+  cursor: pointer;
+}
+
+.share-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.ellipsis-option {
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.ellipsis-option:hover {
+  background-color: #4e4949;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.inputBox {
+  position: fixed;
+  bottom: 70px;
+  padding: 0px 20px;
+}
+
+/* chat input */
+.chatInput {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputBox {
+  width: 60%;
+  margin: 0px 50px;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
+}
+
+input {
+  width: 100%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  font-size: 0.8rem;
+  border-radius: 14px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px, rgba(0, 0, 0, 0.05) 0 -12px 30px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px, rgba(0, 0, 0, 0.05) 0 12px 3px, rgba(0, 0, 0, 0.05) 0 -3px 5px;
+}
+
+input:focus {
+  outline: none;
+}
+
+#submit {
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  font-size: 20px;
+  position: absolute;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px !important;
+}
+
+#submit i:hover {
+  color: #9c9090;
+}
+
+/* .info {
+  position: fixed;
+  bottom: 5px;
+  left: 40%;
+  margin-right: 30px;
+  width: fit-content;
+  text-align: center;
+  font-size: 0.9rem;
+} */
+
+.info {
+  position: fixed;
+  bottom: 5px;
+  width: fit-content;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.ellipsis-options {
+  font-size: 12px;
+}
+
+.ellipsis-menu {
+  position: absolute;
+  top: 50px;                 
+  right: 20px;
+  background-color: #242424; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 110px;
+}
+
+.ellipsis-menu div {
+  color: white;
+  padding: 8px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ellipsis-menu div:hover {
+  background-color: #4e4949;
+  border-radius: 5px;
+}
