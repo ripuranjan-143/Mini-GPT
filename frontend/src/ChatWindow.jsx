@@ -1,12 +1,19 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Chat from './Chat';
 import './ChatWindow.css';
 import { PulseLoader } from 'react-spinners';
 import { BasicContext } from './BasicProvider';
 
 const ChatWindow = () => {
-  const { prompt, setPrompt, reply, setReply, currThreadId } =
-    useContext(BasicContext);
+  const {
+    prompt,
+    setPrompt,
+    reply,
+    setReply,
+    currThreadId,
+    prevChats,
+    setPrevChats,
+  } = useContext(BasicContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +38,6 @@ const ChatWindow = () => {
         options
       );
       const res = await response.json();
-      console.log('res === ', res);
       setReply(res.reply);
     } catch (err) {
       console.log(err);
@@ -39,6 +45,17 @@ const ChatWindow = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (prompt && reply) {
+      setPrevChats((prevChats) => [
+        ...prevChats,
+        { role: 'user', content: prompt },
+        { role: 'assistant', content: reply },
+      ]);
+    }
+    setPrompt('');
+  }, [reply]);
 
   return (
     <div className="chatWindow mt-3">

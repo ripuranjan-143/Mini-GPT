@@ -8,6 +8,7 @@ export const BasicProvider = ({ children }) => {
   const [reply, setReply] = useState(null);
   const [currThreadId, setCurrThreadId] = useState(uuidv4());
   const [newChat, setNewChat] = useState(true);
+  const [prevChats, setPrevChats] = useState([]);
 
   const providerValues = {
     prompt,
@@ -18,6 +19,8 @@ export const BasicProvider = ({ children }) => {
     setCurrThreadId,
     newChat,
     setNewChat,
+    prevChats,
+    setPrevChats,
   };
   return (
     <BasicContext.Provider value={providerValues}>
