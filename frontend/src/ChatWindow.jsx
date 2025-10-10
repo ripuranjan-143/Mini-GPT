@@ -1,8 +1,41 @@
+import { useContext } from 'react';
 import Chat from './Chat';
 import './ChatWindow.css';
-import { ScaleLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
+import { BasicContext } from './BasicProvider';
 
 const ChatWindow = () => {
+  const { prompt, setPrompt, reply, setReply, currThreadId } =
+    useContext(BasicContext);
+
+  const getReply = async () => {
+    if (!prompt.trim()) {
+      return;
+    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: prompt,
+        threadId: currThreadId,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        'http://localhost:8080/api/chat',
+        options
+      );
+      const res = await response.json();
+      console.log('res === ', res);
+      setReply(res.reply);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="chatWindow mt-3">
       <div className="navbar">
@@ -14,29 +47,34 @@ const ChatWindow = () => {
             <i className="share-icon fa-solid fa-arrow-up-from-bracket"></i>
             <p className="mb-0 ms-2">Share</p>
           </span>
-          <i class="fa-solid fa-ellipsis ellipsis-option mx-5"></i>
+          <i className="fa-solid fa-ellipsis ellipsis-option mx-5"></i>
           <div className="ellipsis-menu">
             <div>
-              <i class="fa-solid fa-box-archive ellipsis-options"></i>
+              <i className="fa-solid fa-box-archive ellipsis-options"></i>
               &nbsp;Archive
             </div>
             <div>
-              <i class="fa-solid fa-flag ellipsis-options"></i>
+              <i className="fa-solid fa-flag ellipsis-options"></i>
               &nbsp;Report
             </div>
             <div>
-              <i class="fa-solid fa-trash ellipsis-options"></i>
+              <i className="fa-solid fa-trash ellipsis-options"></i>
               &nbsp;Delete
             </div>
           </div>
         </span>
       </div>
       <Chat></Chat>
-      <ScaleLoader color="#fff"></ScaleLoader>
+      <PulseLoader color="#fff"></PulseLoader>
       <div className="chatInput">
         <div className="inputBox">
-          <input placeholder="Ask anything"></input>
-          <div id="submit">
+          <input
+            placeholder="Ask anything"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            onKeyDown={(e) => (e.key === 'Enter' ? getReply() : '')}
+          ></input>
+          <div id="submit" onClick={getReply}>
             <i className="fa-solid fa-paper-plane"></i>
           </div>
         </div>
