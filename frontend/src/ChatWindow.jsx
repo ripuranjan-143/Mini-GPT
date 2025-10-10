@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Chat from './Chat';
 import './ChatWindow.css';
 import { PulseLoader } from 'react-spinners';
@@ -8,10 +8,12 @@ const ChatWindow = () => {
   const { prompt, setPrompt, reply, setReply, currThreadId } =
     useContext(BasicContext);
 
+  const [loading, setLoading] = useState(false);
+
   const getReply = async () => {
-    if (!prompt.trim()) {
-      return;
-    }
+    if (!prompt.trim() || loading) return;
+
+    setLoading(true);
     const options = {
       method: 'POST',
       headers: {
@@ -33,6 +35,8 @@ const ChatWindow = () => {
       setReply(res.reply);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +69,11 @@ const ChatWindow = () => {
         </span>
       </div>
       <Chat></Chat>
-      <PulseLoader color="#fff"></PulseLoader>
+      <PulseLoader
+        color="#fff"
+        loading={loading}
+        className="text-center"
+      ></PulseLoader>
       <div className="chatInput">
         <div className="inputBox">
           <input
