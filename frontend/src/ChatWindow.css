@@ -34,7 +34,7 @@
 
 .inputBox {
   position: fixed;
-  bottom: 70px;
+  bottom: 35px;
   padding: 0px 20px;
 }
 
@@ -101,10 +101,10 @@ input:focus {
 
 .info {
   position: fixed;
-  bottom: 5px;
+  bottom: -7px;
   width: fit-content;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .ellipsis-options {
