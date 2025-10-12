@@ -1,6 +1,32 @@
+import { useContext, useEffect } from 'react';
 import './Sidebar.css';
+import { BasicContext } from './BasicProvider';
 
 const Sidebar = () => {
+  const { currThreadId, allThreads, setAllThreads } =
+    useContext(BasicContext);
+
+  const getAllThreads = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:8080/api/thread/all'
+      );
+      const result = await response.json();
+      const filteredData = result.map((thread) => ({
+        threadId: thread.threadId,
+        title: thread.title,
+      }));
+      console.log(filteredData);
+      setAllThreads(filteredData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllThreads();
+  }, [currThreadId]);
+
   return (
     <section>
       <div className="sidebar">
@@ -27,13 +53,15 @@ const Sidebar = () => {
 
           <ul className="history">
             <p className="mt-5 ms-2 ps-1">Chats</p>
-            <li className="m-1 p-2 history-li">
-              basic messages<i className="fa-solid fa-trash"></i>
-            </li>
+            {allThreads.map((thread, idx) => (
+              <li key={idx} className="m-1 p-2 history-li">
+                {thread.title}
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="profile-section">
+        {/* <div className="profile-section">
           <div className="profile">
             <div className="profile-list">
               <i className="fa-solid fa-user m-2"></i>
@@ -78,7 +106,7 @@ const Sidebar = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
