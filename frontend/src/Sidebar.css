@@ -121,3 +121,8 @@
 .username {
   font-size: 0.9rem;
 }
+
+.highlighted {
+  background-color: rgba(107, 100, 100, 0.211);
+  border-radius: 10px;
+}

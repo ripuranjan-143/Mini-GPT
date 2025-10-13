@@ -13,6 +13,7 @@ const ChatWindow = () => {
     currThreadId,
     prevChats,
     setPrevChats,
+    setNewChat,
   } = useContext(BasicContext);
 
   const [loading, setLoading] = useState(false);
@@ -21,6 +22,7 @@ const ChatWindow = () => {
     if (!prompt.trim() || loading) return;
 
     setLoading(true);
+    setNewChat(false);
     const options = {
       method: 'POST',
       headers: {

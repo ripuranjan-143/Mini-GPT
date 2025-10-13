@@ -93,7 +93,11 @@ const Sidebar = () => {
               <li
                 key={idx}
                 onClick={() => changeThread(thread.threadId)}
-                className="m-1 p-2 history-li"
+                className={`m-1 p-2 history-li ${
+                  thread.threadId === currThreadId
+                    ? 'highlighted'
+                    : ''
+                }`}
               >
                 {thread.title}
               </li>
@@ -101,7 +105,7 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        {/* <div className="profile-section">
+        <div className="profile-section">
           <div className="profile">
             <div className="profile-list">
               <i className="fa-solid fa-user m-2"></i>
@@ -146,7 +150,7 @@ const Sidebar = () => {
               </button>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </section>
   );
