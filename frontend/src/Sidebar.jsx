@@ -1,4 +1,5 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
+import { useClickAway } from 'react-use';
 import './Sidebar.css';
 import { BasicContext } from './BasicProvider';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +15,12 @@ const Sidebar = () => {
     setCurrThreadId,
     setPrevChats,
   } = useContext(BasicContext);
+
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef(null);
+
+  // Close profile dropdown when clicking outside
+  useClickAway(profileRef, () => setIsProfileOpen(false));
 
   const getAllThreads = async () => {
     try {
@@ -106,36 +113,40 @@ const Sidebar = () => {
         </div>
 
         <div className="profile-section">
-          <div className="profile">
-            <div className="profile-list">
-              <i className="fa-solid fa-user m-2"></i>
-              username
-            </div>
-            <div className="profile-list">
-              <i className="fa-solid fa-cloud-arrow-up m-2"></i>
-              Upgrade Plan
-            </div>
-            <div className="profile-list">
-              <i className="fa-solid fa-star m-2"></i>
-              Personalization
-            </div>
-            <div className="border-bottom profile-list">
-              <i className="fa-solid fa-gear m-2"></i>Settings
-            </div>
-            <div className="profile-list">
-              <i className="fa-solid fa-user-clock m-2"></i>
-              Help
-            </div>
-            <div className="profile-list">
-              <div type="button" className="">
-                <i className="fa-solid fa-arrow-right-from-bracket m-2"></i>
-                &nbsp; Logout
+          {isProfileOpen && (
+            <div className="profile">
+              <div className="profile-list">
+                <i className="fa-solid fa-user m-2"></i>
+                username
+              </div>
+              <div className="profile-list">
+                <i className="fa-solid fa-cloud-arrow-up m-2"></i>
+                Upgrade Plan
+              </div>
+              <div className="profile-list">
+                <i className="fa-solid fa-star m-2"></i>
+                Personalization
+              </div>
+              <div className="border-bottom profile-list">
+                <i className="fa-solid fa-gear m-2"></i>Settings
+              </div>
+              <div className="profile-list">
+                <i className="fa-solid fa-user-clock m-2"></i>
+                Help
+              </div>
+              <div className="profile-list">
+                <div type="button" className="">
+                  <i className="fa-solid fa-arrow-right-from-bracket m-2"></i>
+                  &nbsp; Logout
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="profile-header">
-            <div className="d-flex align-items-center ">
+          )}
+          <div className="profile-header"  ref={profileRef}>
+            <div
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="d-flex align-items-center "
+            >
               <img
                 src="ripuranjan1.jpg"
                 alt="Profile"

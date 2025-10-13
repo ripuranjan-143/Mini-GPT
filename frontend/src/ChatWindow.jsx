@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
+import { useClickAway } from 'react-use';
 import Chat from './Chat';
 import './ChatWindow.css';
 import { PulseLoader } from 'react-spinners';
@@ -17,22 +18,28 @@ const ChatWindow = () => {
   } = useContext(BasicContext);
 
   const [loading, setLoading] = useState(false);
+  const [isOption, setIsOption] = useState(false);
+
+  const optionRef = useRef(null);
+
+  // Close option dropdown when clicking outside
+  useClickAway(optionRef, () => setIsOption(false));
 
   const getReply = async () => {
     if (!prompt.trim() || loading) return;
 
+    const userMessage = prompt;
     setLoading(true);
     setNewChat(false);
+
     const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: prompt,
-        threadId: currThreadId,
-      }),
-    };
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          threadId: currThreadId,
+        }),
+      }
 
     try {
       const response = await fetch(
@@ -40,24 +47,19 @@ const ChatWindow = () => {
         options
       );
       const res = await response.json();
+      setPrevChats((prev) => [
+        ...prev,
+        { role: 'user', content: userMessage },
+        { role: 'assistant', content: res.reply },
+      ]);
       setReply(res.reply);
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
+      setPrompt('');
     }
   };
-
-  useEffect(() => {
-    if (prompt && reply) {
-      setPrevChats((prevChats) => [
-        ...prevChats,
-        { role: 'user', content: prompt },
-        { role: 'assistant', content: reply },
-      ]);
-    }
-    setPrompt('');
-  }, [reply]);
 
   return (
     <div className="chatWindow mt-3">
@@ -70,21 +72,27 @@ const ChatWindow = () => {
             <i className="share-icon fa-solid fa-arrow-up-from-bracket"></i>
             <p className="mb-0 ms-2">Share</p>
           </span>
-          <i className="fa-solid fa-ellipsis ellipsis-option mx-5"></i>
-          <div className="ellipsis-menu">
-            <div>
-              <i className="fa-solid fa-box-archive ellipsis-options"></i>
-              &nbsp;Archive
+          <i
+            onClick={() => setIsOption(!isOption)}
+            ref={optionRef}
+            className="fa-solid fa-ellipsis ellipsis-option mx-5"
+          ></i>
+          {isOption && (
+            <div className="ellipsis-menu">
+              <div>
+                <i className="fa-solid fa-box-archive ellipsis-options"></i>
+                &nbsp;Archive
+              </div>
+              <div>
+                <i className="fa-solid fa-flag ellipsis-options"></i>
+                &nbsp;Report
+              </div>
+              <div>
+                <i className="fa-solid fa-trash ellipsis-options"></i>
+                &nbsp;Delete
+              </div>
             </div>
-            <div>
-              <i className="fa-solid fa-flag ellipsis-options"></i>
-              &nbsp;Report
-            </div>
-            <div>
-              <i className="fa-solid fa-trash ellipsis-options"></i>
-              &nbsp;Delete
-            </div>
-          </div>
+          )}
         </span>
       </div>
       <Chat></Chat>
