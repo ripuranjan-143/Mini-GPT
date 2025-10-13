@@ -1,10 +1,19 @@
 import { useContext, useEffect } from 'react';
 import './Sidebar.css';
 import { BasicContext } from './BasicProvider';
+import { v4 as uuidv4 } from 'uuid';
 
 const Sidebar = () => {
-  const { currThreadId, allThreads, setAllThreads } =
-    useContext(BasicContext);
+  const {
+    currThreadId,
+    allThreads,
+    setAllThreads,
+    setNewChat,
+    setPrompt,
+    setReply,
+    setCurrThreadId,
+    setPrevChats,
+  } = useContext(BasicContext);
 
   const getAllThreads = async () => {
     try {
@@ -27,6 +36,30 @@ const Sidebar = () => {
     getAllThreads();
   }, [currThreadId]);
 
+  const createNewChat = () => {
+    setNewChat(true);
+    setPrompt('');
+    setReply(null);
+    setCurrThreadId(uuidv4());
+    setPrevChats([]);
+  };
+
+  const changeThread = async (newThreadId) => {
+    setCurrThreadId(newThreadId);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/thread/${newThreadId}`
+      );
+      const result = await response.json();
+      //console.log(result);
+      setPrevChats(result);
+      setNewChat(false);
+      setReply(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section>
       <div className="sidebar">
@@ -41,7 +74,10 @@ const Sidebar = () => {
 
         <div className="sidebar-body">
           <ul className="sidebar-icons">
-            <li className="sidebar-icon mt-3 mb-2">
+            <li
+              onClick={createNewChat}
+              className="sidebar-icon mt-3 mb-2"
+            >
               <i className="fa-solid fa-pen-to-square"></i>&nbsp; New
               chat
             </li>
@@ -54,7 +90,11 @@ const Sidebar = () => {
           <ul className="history">
             <p className="mt-5 ms-2 ps-1">Chats</p>
             {allThreads.map((thread, idx) => (
-              <li key={idx} className="m-1 p-2 history-li">
+              <li
+                key={idx}
+                onClick={() => changeThread(thread.threadId)}
+                className="m-1 p-2 history-li"
+              >
                 {thread.title}
               </li>
             ))}
