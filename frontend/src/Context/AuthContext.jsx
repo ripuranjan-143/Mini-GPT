@@ -5,10 +5,10 @@ import {
   useContext,
 } from 'react';
 
-const Authcontext = createContext();
+const AuthContext = createContext();
 
 export const useAuth = () => {
-  return useContext(Authcontext);
+  return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children }) => {
