@@ -11,6 +11,14 @@ export const BasicProvider = ({ children }) => {
   const [prevChats, setPrevChats] = useState([]);
   const [allThreads, setAllThreads] = useState([]);
 
+  const createNewChat = () => {
+    setNewChat(true);
+    setPrompt('');
+    setReply(null);
+    setCurrThreadId(uuidv4());
+    setPrevChats([]);
+  };
+
   const providerValues = {
     prompt,
     setPrompt,
@@ -24,6 +32,7 @@ export const BasicProvider = ({ children }) => {
     setPrevChats,
     allThreads,
     setAllThreads,
+    createNewChat,
   };
   return (
     <BasicContext.Provider value={providerValues}>

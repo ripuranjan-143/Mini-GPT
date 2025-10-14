@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import Chat from './Chat';
 import './ChatWindow.css';
@@ -15,6 +15,10 @@ const ChatWindow = () => {
     prevChats,
     setPrevChats,
     setNewChat,
+    setAllThreads,
+    setCurrThreadId,
+    createNewChat,
+    newChat,
   } = useContext(BasicContext);
 
   const [loading, setLoading] = useState(false);
@@ -33,13 +37,13 @@ const ChatWindow = () => {
     setNewChat(false);
 
     const options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: userMessage,
-          threadId: currThreadId,
-        }),
-      }
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: userMessage,
+        threadId: currThreadId,
+      }),
+    };
 
     try {
       const response = await fetch(
@@ -61,6 +65,29 @@ const ChatWindow = () => {
     }
   };
 
+  const deleteThread = async (threadId) => {
+    if (newChat || prevChats.length === 0) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/thread/${threadId}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      const res = await response.json();
+      console.log(res);
+      setAllThreads((prev) =>
+        prev.filter((thread) => thread.threadId !== threadId)
+      );
+      if (threadId === currThreadId) {
+        createNewChat();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="chatWindow mt-3">
       <div className="navbar">
@@ -72,27 +99,31 @@ const ChatWindow = () => {
             <i className="share-icon fa-solid fa-arrow-up-from-bracket"></i>
             <p className="mb-0 ms-2">Share</p>
           </span>
-          <i
-            onClick={() => setIsOption(!isOption)}
-            ref={optionRef}
-            className="fa-solid fa-ellipsis ellipsis-option mx-5"
-          ></i>
-          {isOption && (
-            <div className="ellipsis-menu">
-              <div>
-                <i className="fa-solid fa-box-archive ellipsis-options"></i>
-                &nbsp;Archive
+          <div ref={optionRef} className="option-container">
+            <i
+              onClick={() => setIsOption(!isOption)}
+              className="fa-solid fa-ellipsis ellipsis-option mx-5"
+            ></i>
+            {isOption && (
+              <div className="ellipsis-menu">
+                <div>
+                  <i className="fa-solid fa-box-archive ellipsis-options"></i>
+                  &nbsp;Archive
+                </div>
+                <div>
+                  <i className="fa-solid fa-flag ellipsis-options"></i>
+                  &nbsp;Report
+                </div>
+                <div
+                  className="ellipsis-options-row"
+                  onClick={() => deleteThread(currThreadId)}
+                >
+                  <i className="fa-solid fa-trash ellipsis-options"></i>
+                  &nbsp;Delete
+                </div>
               </div>
-              <div>
-                <i className="fa-solid fa-flag ellipsis-options"></i>
-                &nbsp;Report
-              </div>
-              <div>
-                <i className="fa-solid fa-trash ellipsis-options"></i>
-                &nbsp;Delete
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </span>
       </div>
       <Chat></Chat>

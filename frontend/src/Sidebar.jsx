@@ -2,7 +2,6 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import './Sidebar.css';
 import { BasicContext } from './BasicProvider';
-import { v4 as uuidv4 } from 'uuid';
 
 const Sidebar = () => {
   const {
@@ -14,6 +13,7 @@ const Sidebar = () => {
     setReply,
     setCurrThreadId,
     setPrevChats,
+    createNewChat,
   } = useContext(BasicContext);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -42,14 +42,6 @@ const Sidebar = () => {
   useEffect(() => {
     getAllThreads();
   }, [currThreadId]);
-
-  const createNewChat = () => {
-    setNewChat(true);
-    setPrompt('');
-    setReply(null);
-    setCurrThreadId(uuidv4());
-    setPrevChats([]);
-  };
 
   const changeThread = async (newThreadId) => {
     setCurrThreadId(newThreadId);
@@ -142,7 +134,7 @@ const Sidebar = () => {
               </div>
             </div>
           )}
-          <div className="profile-header"  ref={profileRef}>
+          <div className="profile-header" ref={profileRef}>
             <div
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="d-flex align-items-center "
