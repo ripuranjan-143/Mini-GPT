@@ -34,8 +34,18 @@
 
 .inputBox {
   position: fixed;
-  bottom: 35px;
+  bottom: 2.7rem;
   padding: 0px 20px;
+  bottom: 2.5rem;
+  width: 60%;
+  max-width: 800px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: #1e1e1e;
+  background-clip: content-box;
+  border-radius: 30px;
 }
 
 /* chat input */
@@ -47,16 +57,6 @@
   align-items: center;
 }
 
-.inputBox {
-  width: 60%;
-  margin: 0px 50px;
-  max-width: 800px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 20px 0px 20px;
-}
-
 input {
   width: 100%;
   border: none;
@@ -64,8 +64,9 @@ input {
   padding: 20px;
   font-size: 0.8rem;
   border-radius: 14px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px, rgba(0, 0, 0, 0.05) 0 -12px 30px,
-    rgba(0, 0, 0, 0.05) 0 4px 6px, rgba(0, 0, 0, 0.05) 0 12px 3px, rgba(0, 0, 0, 0.05) 0 -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+    rgba(0, 0, 0, 0.05) 0 -12px 30px, rgba(0, 0, 0, 0.05) 0 4px 6px,
+    rgba(0, 0, 0, 0.05) 0 12px 3px, rgba(0, 0, 0, 0.05) 0 -3px 5px;
 }
 
 input:focus {
@@ -101,7 +102,7 @@ input:focus {
 
 .info {
   position: fixed;
-  bottom: -7px;
+  bottom: -10px;
   width: fit-content;
   text-align: center;
   font-size: 0.8rem;
@@ -113,9 +114,9 @@ input:focus {
 
 .ellipsis-menu {
   position: absolute;
-  top: 50px;                 
+  top: 50px;
   right: 20px;
-  background-color: #242424; 
+  background-color: #242424;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 8px 0;
@@ -133,4 +134,26 @@ input:focus {
 .ellipsis-menu div:hover {
   background-color: #4e4949;
   border-radius: 5px;
+}
+
+.chat-textarea {
+  width: 100%;
+  min-height: 40px;
+  max-height: 150px;
+  padding: 20px 45px 0px 30px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  border: none;
+  border-radius: 12px;
+  resize: none;
+  overflow: hidden;
+  background-color: #2a2828;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: height 0.2s ease;
+}
+
+.chat-textarea:focus {
+  outline: none;
+  background-color: rgba(219, 207, 207, 0.08);
 }

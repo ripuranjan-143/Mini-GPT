@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  height: calc(100vh - 190px);
+  height: calc(100vh - 209px);
   scrollbar-width: thin;
   scrollbar-color: #555 #1e1e1e;
 }
@@ -29,7 +29,9 @@
     padding: 1rem 16rem 1rem 15rem;
   }
 
-  .userDiv,
+  .userDiv {
+    padding: 2rem 0rem 0rem 7rem;
+  }
   .gptDiv {
     padding: 2rem 0rem 0rem 1rem;
   }
@@ -40,7 +42,9 @@
     padding: 1rem 9rem 1rem 9rem;
   }
 
-  .userDiv,
+  .userDiv {
+    padding: 2rem 0rem 0rem 5rem;
+  }
   .gptDiv {
     padding: 2rem 0rem 0rem 1rem;
   }
@@ -50,7 +54,9 @@
   .chats {
     padding: 1rem 6rem 1rem 7rem;
   }
-  .userDiv,
+  .userDiv {
+    padding: 2rem 0rem 0rem 4rem;
+  }
   .gptDiv {
     padding: 1rem 0rem 1rem 0rem;
     max-width: 100%;
@@ -63,7 +69,9 @@
     padding: 2rem 2rem 1rem 4rem;
   }
 
-  .userDiv,
+  .userDiv {
+    padding: 2rem 0rem 0rem 5rem;
+  }
   .gptDiv {
     max-width: 100%;
     font-size: 0.9rem;

@@ -19,14 +19,11 @@ const Sidebar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const profileRef = useRef(null);
-  // const searchRef = useRef(null);
 
   // Close profile dropdown when clicking outside
   useClickAway(profileRef, () => setIsProfileOpen(false));
-  // useClickAway(searchRef, () => setIsSearchOpen(false));
 
   const getAllThreads = async () => {
     try {
@@ -64,19 +61,6 @@ const Sidebar = () => {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   if (searchQuery === '') {
-  //     setSearchResults(allThreads);
-  //   } else {
-  //     const filteredThread = allThreads.filter((thread) =>
-  //       thread.title
-  //         .toLowerCase()
-  //         .includes(searchQuery.trim().toLowerCase())
-  //     );
-  //     setSearchResults(filteredThread);
-  //   }
-  // }, [searchQuery, allThreads]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -139,7 +123,7 @@ const Sidebar = () => {
             />
           </li>
         </ul>
-        <p className=" mt-2 mx-3 ps-3 list-of-chats pt-2">
+        <p className=" my-2 mx-3 ps-3 list-of-chats pt-2">
           List of chats
         </p>
         <div className="sidebar-body">
@@ -204,7 +188,13 @@ const Sidebar = () => {
                 ripuranjan <br />
                 free
               </p>
-              <button className="btn btn-sm btn-primary mb-2 rounded-pill">
+              <button
+                style={{
+                  backgroundColor: '#423f3fff',
+                  color: 'white',
+                }}
+                className="btn btn-sm mb-2 rounded-pill"
+              >
                 Upgrade
               </button>
             </div>

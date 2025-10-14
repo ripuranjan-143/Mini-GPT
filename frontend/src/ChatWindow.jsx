@@ -2,7 +2,7 @@ import { useContext, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import Chat from './Chat';
 import './ChatWindow.css';
-import { PulseLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import { BasicContext } from './BasicProvider';
 
 const ChatWindow = () => {
@@ -25,6 +25,7 @@ const ChatWindow = () => {
   const [isOption, setIsOption] = useState(false);
 
   const optionRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Close option dropdown when clicking outside
   useClickAway(optionRef, () => setIsOption(false));
@@ -62,6 +63,9 @@ const ChatWindow = () => {
     } finally {
       setLoading(false);
       setPrompt('');
+      if (inputRef.current) {
+        inputRef.current.style.height = 'auto';
+      }
     }
   };
 
@@ -86,6 +90,14 @@ const ChatWindow = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleInputChange = (e) => {
+    setPrompt(e.target.value);
+    const textarea = inputRef.current;
+    textarea.style.height = 'auto';
+    const newHeight = Math.min(textarea.scrollHeight, 150);
+    textarea.style.height = `${newHeight}px`;
   };
 
   return (
@@ -127,19 +139,26 @@ const ChatWindow = () => {
         </span>
       </div>
       <Chat></Chat>
-      <PulseLoader
+      <SyncLoader
         color="#fff"
         loading={loading}
-        className="text-center"
-      ></PulseLoader>
+        className="text-center pulseLoader"
+      ></SyncLoader>
       <div className="chatInput">
         <div className="inputBox">
-          <input
-            placeholder="Ask anything"
+          <textarea
+            className="chat-textarea fs-6"
+            placeholder="Ask anything..."
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={(e) => (e.key === 'Enter' ? getReply() : '')}
-          ></input>
+            onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                getReply(); 
+              }
+            }}
+            ref={inputRef}
+          />
           <div id="submit" onClick={getReply}>
             <i className="fa-solid fa-paper-plane"></i>
           </div>
