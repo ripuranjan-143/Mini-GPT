@@ -1,5 +1,5 @@
 .sidebar {
-  height: 100vh;       
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   gap: 130px;
-  flex-shrink: 0;        
+  flex-shrink: 0;
   padding: 5px;
 }
 
@@ -35,38 +35,11 @@
   cursor: pointer;
 }
 
-/* Scrollable content */
-.sidebar-body {
-  flex: 1;                  
-  overflow-y: scroll;         
-  overflow-x: hidden;
-  padding: 10px;
-  scrollbar-width: thin;scrollbar-color: #555 #1e1e1e;
-}
-
-.sidebar-icons, .history {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.sidebar-icon {
-  padding: 9px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.sidebar-icon:hover {
-  background-color: rgba(94, 90, 90, 0.34);
-  border-radius: 10px;
-}
-
 .history-li:hover {
   cursor: pointer;
   background-color: rgba(94, 90, 90, 0.34);
   border-radius: 10px;
 }
-
 
 .profile-section {
   position: fixed;
@@ -125,4 +98,61 @@
 .highlighted {
   background-color: rgba(107, 100, 100, 0.211);
   border-radius: 10px;
+}
+
+/* Scrollable content */
+.sidebar-body {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #1e1e1e;
+  margin-bottom: 55px;
+}
+
+.sidebar-icons ,
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.create-sidebar-icon {
+  padding: 9px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid rgb(70, 67, 67);
+  border-radius: 10px;
+}
+
+.create-sidebar-icon:hover {
+  background-color: rgba(94, 90, 90, 0.34);
+  border-radius: 10px;
+}
+
+.search-input {
+  height: 20px;
+  background-color: #151515;
+  border: 1px solid rgb(70, 67, 67);
+}
+
+.search-input:hover {
+  background-color: #303030;
+}
+
+.list-of-chats {
+  border-radius: 10px;
+  border: 1px solid rgb(70, 67, 67);
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  cursor: auto;
+  background-color: #1d1d1d;
+}
+
+.highlight {
+  background-color: yellow;
+  color: black;
+  border-radius: 3px;
 }

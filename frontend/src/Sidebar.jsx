@@ -17,10 +17,16 @@ const Sidebar = () => {
   } = useContext(BasicContext);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  // const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const profileRef = useRef(null);
+  // const searchRef = useRef(null);
 
   // Close profile dropdown when clicking outside
   useClickAway(profileRef, () => setIsProfileOpen(false));
+  // useClickAway(searchRef, () => setIsSearchOpen(false));
 
   const getAllThreads = async () => {
     try {
@@ -59,6 +65,50 @@ const Sidebar = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (searchQuery === '') {
+  //     setSearchResults(allThreads);
+  //   } else {
+  //     const filteredThread = allThreads.filter((thread) =>
+  //       thread.title
+  //         .toLowerCase()
+  //         .includes(searchQuery.trim().toLowerCase())
+  //     );
+  //     setSearchResults(filteredThread);
+  //   }
+  // }, [searchQuery, allThreads]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (!searchQuery) {
+        setSearchResults(allThreads);
+      } else {
+        const filtered = allThreads.filter((thread) =>
+          thread.title
+            .toLowerCase()
+            .includes(searchQuery.trim().toLowerCase())
+        );
+        setSearchResults(filtered);
+      }
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery, allThreads]);
+
+  const highlightText = (text, query) => {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    const parts = text.split(regex);
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <span key={i} className="highlight">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <section>
       <div className="sidebar">
@@ -71,34 +121,40 @@ const Sidebar = () => {
           <i className="fa-solid fa-toggle-on toggle-icon"></i>
         </div>
 
+        <ul className="sidebar-icons mx-3">
+          <li
+            onClick={createNewChat}
+            className="create-sidebar-icon mt-3 mb-2"
+          >
+            <i className="fa-solid fa-pen-to-square"></i>&nbsp; New
+            chat
+          </li>
+          <li className="search-sidebar-icon">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search Chats"
+              className="search-input"
+            />
+          </li>
+        </ul>
+        <p className=" mt-2 mx-3 ps-3 list-of-chats pt-2">
+          List of chats
+        </p>
         <div className="sidebar-body">
-          <ul className="sidebar-icons">
-            <li
-              onClick={createNewChat}
-              className="sidebar-icon mt-3 mb-2"
-            >
-              <i className="fa-solid fa-pen-to-square"></i>&nbsp; New
-              chat
-            </li>
-            <li className="sidebar-icon">
-              <i className="fa-solid fa-magnifying-glass"></i>&nbsp;
-              Search chats
-            </li>
-          </ul>
-
           <ul className="history">
-            <p className="mt-5 ms-2 ps-1">Chats</p>
-            {allThreads.map((thread, idx) => (
+            {searchResults.map((thread, idx) => (
               <li
                 key={idx}
                 onClick={() => changeThread(thread.threadId)}
-                className={`m-1 p-2 history-li ${
+                className={`m-1 ms-2 p-2 history-li ${
                   thread.threadId === currThreadId
                     ? 'highlighted'
                     : ''
                 }`}
               >
-                {thread.title}
+                {highlightText(thread.title, searchQuery)}
               </li>
             ))}
           </ul>
