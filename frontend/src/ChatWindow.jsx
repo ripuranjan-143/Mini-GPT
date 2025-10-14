@@ -3,7 +3,7 @@ import { useClickAway } from 'react-use';
 import Chat from './Chat';
 import './ChatWindow.css';
 import { PulseLoader } from 'react-spinners';
-import { BasicContext } from './BasicProvider';
+import { BasicContext } from './Context/BasicContext';
 
 const ChatWindow = () => {
   const {

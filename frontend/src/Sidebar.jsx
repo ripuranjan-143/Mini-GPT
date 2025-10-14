@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import './Sidebar.css';
-import { BasicContext } from './BasicProvider';
+import { BasicContext } from './Context/BasicContext';
 
 const Sidebar = () => {
   const {

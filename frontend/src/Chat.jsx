@@ -1,6 +1,6 @@
 import './Chat.css';
 import { useContext, useState, useEffect } from 'react';
-import { BasicContext } from './BasicProvider';
+import { BasicContext } from './Context/BasicContext';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
