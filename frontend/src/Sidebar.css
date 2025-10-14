@@ -160,3 +160,32 @@
   color: black;
   border-radius: 3px;
 }
+
+.logout-btn {
+  background: none;  
+  display: inline-flex;
+  border: none;      
+  color: white;    
+  padding: 0;
+  width: 210px;
+}
+
+.logout-btn:hover {
+  background: none;
+  color: white;
+}
+
+.profile-logout{
+  text-decoration: none;
+  color: white;
+  margin: 2px 3px;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  height: 40px;
+}
+
+.profile-logout:hover {
+  background-color: #171717;
+  cursor: pointer;
+}

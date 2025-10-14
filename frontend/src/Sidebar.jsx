@@ -2,8 +2,12 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import './Sidebar.css';
 import { BasicContext } from './Context/BasicContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../src/Context/AuthContext';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   const {
     currThreadId,
     allThreads,
@@ -15,6 +19,8 @@ const Sidebar = () => {
     setPrevChats,
     createNewChat,
   } = useContext(BasicContext);
+
+  const { setCurrentUser } = useAuth();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -144,7 +150,7 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className="profile-section">
+        <div className="profile-section" ref={profileRef}>
           {isProfileOpen && (
             <div className="profile">
               <div className="profile-list">
@@ -166,15 +172,24 @@ const Sidebar = () => {
                 <i className="fa-solid fa-user-clock m-2"></i>
                 Help
               </div>
-              <div className="profile-list">
-                <div type="button" className="">
-                  <i className="fa-solid fa-arrow-right-from-bracket m-2"></i>
-                  &nbsp; Logout
-                </div>
+              <div className="profile-logout">
+                <button
+                  className="btn logout-btn"
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userId');
+                    setCurrentUser(null);
+                    navigate('/login');
+                    setIsProfileOpen(!isProfileOpen)
+                  }}
+                >
+                  <i className="fa-solid fa-arrow-right-from-bracket mt-1 mx-2"></i>
+                  Logout
+                </button>
               </div>
             </div>
           )}
-          <div className="profile-header" ref={profileRef}>
+          <div className="profile-header" >
             <div
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="d-flex align-items-center"
