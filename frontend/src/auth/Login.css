@@ -1,0 +1,53 @@
+.account-login {
+  color: white;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.account-login:hover {
+  color: rgb(147, 165, 165);
+}
+
+.login-input {
+  background-color: #171717;
+  color: white;
+}
+
+.login-input:focus {
+  background-color: #171717;
+  color: white;
+  box-shadow: none;
+}
+
+.login-input::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+
+.create-account {
+  width: 21rem;
+  color: white;
+}
+
+.create-account:hover {
+  background-color: #3b3e3e;
+}
+
+.option-login {
+  background-color: #171717;
+  height: 57px;
+}
+
+.login-box {
+  width: 21rem;
+  margin-top: 170px;
+}
+/* Fix autofill background for dark theme inputs */
+.login-input:-webkit-autofill,
+.login-input:-webkit-autofill:hover,
+.login-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #171717 inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: white;
+  transition: background-color 5000s ease-in-out 0s; /* prevents flash */
+}
