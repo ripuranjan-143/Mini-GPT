@@ -27,7 +27,12 @@ const Chat = () => {
   return (
     <>
       {newChat && (
-        <h2 className="text-center mt-5 me-5">Start a new Chat!</h2>
+        <h2
+          style={{ color: 'white' }}
+          className="text-center mt-5 me-5"
+        >
+          Start a new Chat!
+        </h2>
       )}
       <div className="chats">
         {displayChats?.map((chat, idx) => (

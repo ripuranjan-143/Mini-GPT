@@ -1,10 +1,28 @@
+.app-chatwindow {
+  background-color: #181818;
+  color: rgb(10, 10, 13);
+  width: calc(100% - 250px);
+  position: fixed;
+  top: 0;
+  left: 250px;
+  height: 44rem;
+}
+
+.app-sidebar {
+  width: 250px !important;
+  height: 44rem;
+  background-color: #151515;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 .chats {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  height: calc(100vh - 209px);
+  height: calc(113vh - 285px);
   scrollbar-width: thin;
-  scrollbar-color: #555 #1e1e1e;
+  scrollbar-color: hsl(0, 0%, 33%) #1e1e1e;
 }
 .userDiv {
   padding: 1.5rem 17rem 1rem 27rem;

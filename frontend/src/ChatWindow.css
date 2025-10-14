@@ -1,3 +1,18 @@
+.navbar {
+  background-color: #201f1f;
+  margin-bottom: 10px;
+  border-bottom: .01px solid rgb(68, 66, 66);
+}
+
+.chatWindow {
+  background-color: #181818;
+  color: rgb(10, 10, 13);
+  width: calc(100% - 250px);
+  position: fixed;
+  left: 250px;
+  height: 44rem;
+}
+
 .minigpt:hover {
   background-color: #4e4949;
   border-radius: 10px;
@@ -156,4 +171,11 @@ input:focus {
 .chat-textarea:focus {
   outline: none;
   background-color: rgba(219, 207, 207, 0.08);
+}
+
+.scale-loader {
+  text-align: center;
+}
+.scale-loader.new-chat {
+  margin-top: -90px;
 }

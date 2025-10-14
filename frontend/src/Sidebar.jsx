@@ -177,7 +177,7 @@ const Sidebar = () => {
           <div className="profile-header" ref={profileRef}>
             <div
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="d-flex align-items-center "
+              className="d-flex align-items-center"
             >
               <img
                 src="ripuranjan1.jpg"

@@ -2,6 +2,9 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 250px;
+  position: fixed;
+  background-color: #151515;
 }
 
 .icon-row {
@@ -9,7 +12,8 @@
   align-items: center;
   gap: 130px;
   flex-shrink: 0;
-  padding: 5px;
+  padding: 5px 5px 14px 5px;
+  border-bottom: .01px solid rgb(43, 41, 41);
 }
 
 .logo {
@@ -74,7 +78,7 @@
   cursor: pointer;
   border-radius: 8px;
   background-color: #292828;
-  width: 235px;
+  width: 245px;
   margin: 3px 3px 0px 3px;
   height: 60px;
 }
@@ -111,7 +115,7 @@
   margin-bottom: 55px;
 }
 
-.sidebar-icons ,
+.sidebar-icons,
 .history {
   list-style: none;
   margin: 0;

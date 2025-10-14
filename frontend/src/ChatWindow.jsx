@@ -2,7 +2,7 @@ import { useContext, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import Chat from './Chat';
 import './ChatWindow.css';
-import { SyncLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 import { BasicContext } from './BasicProvider';
 
 const ChatWindow = () => {
@@ -101,7 +101,7 @@ const ChatWindow = () => {
   };
 
   return (
-    <div className="chatWindow mt-3">
+    <div className="chatWindow">
       <div className="navbar">
         <span className="minigpt ms-4 p-2">
           MiniGPT <i className="fa-solid fa-chevron-down"></i>
@@ -128,7 +128,10 @@ const ChatWindow = () => {
                 </div>
                 <div
                   className="ellipsis-options-row"
-                  onClick={() => deleteThread(currThreadId)}
+                  onClick={() => {
+                    deleteThread(currThreadId);
+                    setIsOption(false);
+                  }}
                 >
                   <i className="fa-solid fa-trash ellipsis-options"></i>
                   &nbsp;Delete
@@ -139,11 +142,11 @@ const ChatWindow = () => {
         </span>
       </div>
       <Chat></Chat>
-      <SyncLoader
+      <PulseLoader
         color="#fff"
         loading={loading}
-        className="text-center pulseLoader"
-      ></SyncLoader>
+        className={`scale-loader ${newChat ? 'new-chat' : ''}`}
+      />
       <div className="chatInput">
         <div className="inputBox">
           <textarea
@@ -154,7 +157,7 @@ const ChatWindow = () => {
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                getReply(); 
+                getReply();
               }
             }}
             ref={inputRef}
