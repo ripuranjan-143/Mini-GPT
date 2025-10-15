@@ -24,6 +24,8 @@ const ChatWindow = () => {
   const [loading, setLoading] = useState(false);
   const [isOption, setIsOption] = useState(false);
 
+  const token = localStorage.getItem('token');
+
   const optionRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -39,7 +41,10 @@ const ChatWindow = () => {
 
     const options = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         message: userMessage,
         threadId: currThreadId,
@@ -77,10 +82,11 @@ const ChatWindow = () => {
         `http://localhost:8080/api/thread/${threadId}`,
         {
           method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       const res = await response.json();
-      console.log(res);
+      //console.log(res);
       setAllThreads((prev) =>
         prev.filter((thread) => thread.threadId !== threadId)
       );

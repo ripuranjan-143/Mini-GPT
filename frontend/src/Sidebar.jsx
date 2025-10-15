@@ -26,6 +26,8 @@ const Sidebar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
+  const token = localStorage.getItem('token');
+
   const profileRef = useRef(null);
 
   // Close profile dropdown when clicking outside
@@ -34,14 +36,17 @@ const Sidebar = () => {
   const getAllThreads = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/thread/all'
+        'http://localhost:8080/api/thread/all',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       const result = await response.json();
       const filteredData = result.map((thread) => ({
         threadId: thread.threadId,
         title: thread.title,
       }));
-      console.log(filteredData);
+      //console.log(filteredData);
       setAllThreads(filteredData);
     } catch (error) {
       console.log(error);
@@ -56,7 +61,10 @@ const Sidebar = () => {
     setCurrThreadId(newThreadId);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${newThreadId}`
+        `http://localhost:8080/api/thread/${newThreadId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       const result = await response.json();
       //console.log(result);
@@ -180,7 +188,7 @@ const Sidebar = () => {
                     localStorage.removeItem('userId');
                     setCurrentUser(null);
                     navigate('/login');
-                    setIsProfileOpen(!isProfileOpen)
+                    setIsProfileOpen(!isProfileOpen);
                   }}
                 >
                   <i className="fa-solid fa-arrow-right-from-bracket mt-1 mx-2"></i>
@@ -189,7 +197,7 @@ const Sidebar = () => {
               </div>
             </div>
           )}
-          <div className="profile-header" >
+          <div className="profile-header">
             <div
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="d-flex align-items-center"
