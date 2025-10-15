@@ -20,7 +20,7 @@ const Sidebar = () => {
     createNewChat,
   } = useContext(BasicContext);
 
-  const { setCurrentUser } = useAuth();
+  const { setCurrentUser, userData } = useAuth();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,6 +107,33 @@ const Sidebar = () => {
     );
   };
 
+  const userDelete = async () => {
+    if (!userData?._id) return;
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/user/${userData._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        alert('Error while deleting the User');
+        return;
+      }
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      setCurrentUser(null);
+      navigate('/login');
+      alert('Your account has been deleted successfully!');
+    } catch (error) {
+      console.log(error);
+      alert('Error while deleting the User');
+    }
+  };
+
   return (
     <section>
       <div className="sidebar">
@@ -161,24 +188,22 @@ const Sidebar = () => {
         <div className="profile-section" ref={profileRef}>
           {isProfileOpen && (
             <div className="profile">
-              <div className="profile-list">
+              <div className="profile-list user-email">
                 <i className="fa-solid fa-user m-2"></i>
-                username
+                <span>
+                  {' '}
+                  {userData?.email
+                    ? userData.email.split(' ').slice(0, 15).join(' ')
+                    : 'Guest'}
+                </span>
               </div>
-              <div className="profile-list">
-                <i className="fa-solid fa-cloud-arrow-up m-2"></i>
-                Upgrade Plan
-              </div>
-              <div className="profile-list">
-                <i className="fa-solid fa-star m-2"></i>
-                Personalization
-              </div>
-              <div className="border-bottom profile-list">
-                <i className="fa-solid fa-gear m-2"></i>Settings
-              </div>
-              <div className="profile-list">
-                <i className="fa-solid fa-user-clock m-2"></i>
-                Help
+              <div
+                onClick={userDelete}
+                style={{ padding: '10px 5px 10px 5px' }}
+                className="profile-list"
+              >
+                <i className="fa-solid fa-trash ellipsis-options ms-2"></i>
+                <span className="ms-2"> Delete user account</span>
               </div>
               <div className="profile-logout">
                 <button
@@ -208,7 +233,10 @@ const Sidebar = () => {
                 className="profile-img "
               />
               <p className="mt-2 mx-4 username">
-                ripuranjan <br />
+                {userData?.username
+                  ? userData.username.split(' ').slice(0, 7).join(' ')
+                  : 'Guest'}
+                <br />
                 free
               </p>
               <button
@@ -216,7 +244,7 @@ const Sidebar = () => {
                   backgroundColor: '#423f3fff',
                   color: 'white',
                 }}
-                className="btn btn-sm mb-2 rounded-pill"
+                className="btn btn-sm mb-2 rounded-pill ms-auto me-3"
               >
                 Upgrade
               </button>
