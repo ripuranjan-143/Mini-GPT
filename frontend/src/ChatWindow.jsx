@@ -124,14 +124,14 @@ const ChatWindow = () => {
             ></i>
             {isOption && (
               <div className="ellipsis-menu">
-                <div>
+                {/* <div>
                   <i className="fa-solid fa-box-archive ellipsis-options"></i>
                   &nbsp;Archive
                 </div>
                 <div>
                   <i className="fa-solid fa-flag ellipsis-options"></i>
                   &nbsp;Report
-                </div>
+                </div> */}
                 <div
                   className="ellipsis-options-row"
                   onClick={() => {
@@ -140,7 +140,7 @@ const ChatWindow = () => {
                   }}
                 >
                   <i className="fa-solid fa-trash ellipsis-options"></i>
-                  &nbsp;Delete
+                  &nbsp;Delete Chat
                 </div>
               </div>
             )}
