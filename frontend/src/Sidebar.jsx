@@ -2,25 +2,22 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import './Sidebar.css';
 import { BasicContext } from './Context/BasicContext';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../src/Context/AuthContext';
 
 const Sidebar = () => {
-  const navigate = useNavigate();
 
   const {
     currThreadId,
     allThreads,
     setAllThreads,
     setNewChat,
-    setPrompt,
     setReply,
     setCurrThreadId,
     setPrevChats,
     createNewChat,
   } = useContext(BasicContext);
 
-  const { setCurrentUser, userData } = useAuth();
+  const { userData, deleteAccount, logout } = useAuth();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,33 +104,6 @@ const Sidebar = () => {
     );
   };
 
-  const userDelete = async () => {
-    if (!userData?._id) return;
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/user/${userData._id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        alert('Error while deleting the User');
-        return;
-      }
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-      setCurrentUser(null);
-      navigate('/login');
-      alert('Your account has been deleted successfully!');
-    } catch (error) {
-      console.log(error);
-      alert('Error while deleting the User');
-    }
-  };
-
   return (
     <section>
       <div className="sidebar">
@@ -198,7 +168,7 @@ const Sidebar = () => {
                 </span>
               </div>
               <div
-                onClick={userDelete}
+                onClick={deleteAccount}
                 style={{ padding: '10px 5px 10px 5px' }}
                 className="profile-list"
               >
@@ -206,16 +176,7 @@ const Sidebar = () => {
                 <span className="ms-2"> Delete user account</span>
               </div>
               <div className="profile-logout">
-                <button
-                  className="btn logout-btn"
-                  onClick={() => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('userId');
-                    setCurrentUser(null);
-                    navigate('/login');
-                    setIsProfileOpen(!isProfileOpen);
-                  }}
-                >
+                <button className="btn logout-btn" onClick={logout}>
                   <i className="fa-solid fa-arrow-right-from-bracket mt-1 mx-2"></i>
                   Logout
                 </button>

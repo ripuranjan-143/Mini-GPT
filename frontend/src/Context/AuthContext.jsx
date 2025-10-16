@@ -27,21 +27,59 @@ export const AuthProvider = ({ children }) => {
     })
       .then((res) => {
         if (!res.ok) throw new Error('Unauthorized');
-        console.log('res = ', res);
         return res.json();
       })
       .then((data) => {
-        setUserData(data.user); //same as backend has sent
+        setUserData(data.user);
         setCurrentUser(userId);
       })
       .catch(() => {
-        localStorage.clear();
-        navigate('/login');
+        logout();
       })
       .finally(() => setLoading(false));
-  }, [navigate]);
+  }, []);
 
-  const value = { currentUser, setCurrentUser, userData, loading };
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setCurrentUser(null);
+    setUserData(null);
+    navigate('/login');
+  };
+
+  const deleteAccount = async () => {
+    const token = localStorage.getItem('token');
+    if (!userData?._id) return alert('No user found');
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/user/${userData._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        alert('Error while deleting account');
+        return;
+      }
+      logout();
+      alert('Your account has been deleted successfully!');
+    } catch (error) {
+      console.log(error);
+      alert('Error while deleting the user');
+    }
+  };
+
+  const value = {
+    currentUser,
+    setCurrentUser,
+    userData,
+    loading,
+    logout,
+    deleteAccount,
+  };
 
   return (
     <AuthContext.Provider value={value}>
