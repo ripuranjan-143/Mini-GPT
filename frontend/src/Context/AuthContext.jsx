@@ -7,22 +7,19 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     if (!token || !userId) {
-      localStorage.clear();
-      navigate('/login');
+      setLoading(false);
       return;
     }
     fetch(`http://localhost:8080/api/user/${userId}`, {
@@ -30,23 +27,21 @@ export const AuthProvider = ({ children }) => {
     })
       .then((res) => {
         if (!res.ok) throw new Error('Unauthorized');
+        console.log('res = ', res);
         return res.json();
       })
       .then((data) => {
-        setUserData(data.user);
+        setUserData(data.user); //same as backend has sent
         setCurrentUser(userId);
       })
       .catch(() => {
         localStorage.clear();
         navigate('/login');
-      });
-  }, [token, userId, navigate]);
+      })
+      .finally(() => setLoading(false));
+  }, [navigate]);
 
-  const value = {
-    currentUser,
-    setCurrentUser,
-    userData,
-  };
+  const value = { currentUser, setCurrentUser, userData, loading };
 
   return (
     <AuthContext.Provider value={value}>

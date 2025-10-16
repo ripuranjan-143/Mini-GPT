@@ -1,56 +1,58 @@
-import { useRoutes, useNavigate } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
+import { useAuth } from './Context/AuthContext.jsx';
 import Sidebar from './Sidebar.jsx';
 import ChatWindow from './ChatWindow.jsx';
-import Signup from './auth/Signup.jsx';
 import Login from './auth/Login.jsx';
-import { useAuth } from '../src/Context/AuthContext.jsx';
-import { useEffect } from 'react';
+import Signup from './auth/Signup.jsx';
 
 const ProjectRoutes = () => {
-  const { currentUser, setCurrentUser } = useAuth();
-  const navigate = useNavigate();
+  const { currentUser, loading } = useAuth();
 
-  useEffect(() => {
-    const userIdFromStorage = localStorage.getItem('userId');
-
-    if (userIdFromStorage && !currentUser) {
-      setCurrentUser(userIdFromStorage);
-    }
-    if (
-      !userIdFromStorage &&
-      !['/login', '/signup'].includes(window.location.pathname)
-    ) {
-      navigate('/login');
-    }
-
-    if (userIdFromStorage && window.location.pathname === '/login') {
-      navigate('/');
-    }
-  }, [currentUser, navigate, setCurrentUser]);
-  let element = useRoutes([
+  const routes = useRoutes([
     {
       path: '/',
-      element: (
-        <div style={{ backgroundColor: 'black' }} className="black">
-          <div className="">
-            <Sidebar />
-          </div>
-          <div className="">
-            <ChatWindow />
-          </div>
+      element: currentUser ? (
+        <div style={{ display: 'flex', backgroundColor: 'black' }}>
+          <Sidebar />
+          <ChatWindow />
         </div>
+      ) : (
+        <Navigate to="/login" replace />
       ),
     },
     {
       path: '/login',
-      element: <Login />,
+      element: !currentUser ? <Login /> : <Navigate to="/" replace />,
     },
     {
       path: '/signup',
-      element: <Signup />,
+      element: !currentUser ? (
+        <Signup />
+      ) : (
+        <Navigate to="/" replace />
+      ),
+    },
+    {
+      path: '*',
+      element: <Navigate to={currentUser ? '/' : '/login'} replace />,
     },
   ]);
-  return element;
+
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{
+          height: '100vh',
+          backgroundColor: 'black',
+          color: 'white',
+        }}
+      >
+        <h4>Loading...</h4>
+      </div>
+    );
+  }
+  return routes;
 };
 
 export default ProjectRoutes;

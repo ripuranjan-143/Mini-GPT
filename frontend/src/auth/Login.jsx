@@ -6,20 +6,18 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const { setCurrentUser } = useAuth();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [loginButton, setLoginButton] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) return;
+    setLoginButton(true);
     try {
       const res = await axios.post(
         'http://localhost:8080/api/user/login',
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
       localStorage.setItem('userId', res.data.userId);
       localStorage.setItem('token', res.data.token);
@@ -28,6 +26,8 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Login failed!');
+    } finally {
+      setLoginButton(false);
     }
   };
 
@@ -40,7 +40,6 @@ const Login = () => {
         <p className="fs-2 text-center">Login</p>
         <input
           autoComplete="off"
-          name="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter Email"
@@ -49,7 +48,6 @@ const Login = () => {
         />
         <input
           autoComplete="off"
-          name="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter Password"
@@ -59,11 +57,13 @@ const Login = () => {
         <button
           onClick={handleLogin}
           className="btn border create-account"
+          disabled={loginButton}
         >
           Log in
         </button>
         <p className="mt-5 text-center pt-3 rounded option-login">
-          New to mini-GPT ?<Link to="/signup">Create an account</Link>
+          New to mini-GPT ?{' '}
+          <Link to="/signup">Create an account</Link>
         </p>
       </div>
     </div>
